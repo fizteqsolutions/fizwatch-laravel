@@ -1,0 +1,30 @@
+{
+    "name": "fizteqsolutions/fizwatch-laravel",
+    "description": "Laravel client package for FizWatch error tracking",
+    "keywords": ["laravel", "error-tracking", "fizwatch", "exception-handler"],
+    "license": "MIT",
+    "require": {
+        "php": "^8.0",
+        "illuminate/console": "^8.0|^9.0|^10.0|^11.0|^12.0",
+        "illuminate/contracts": "^8.0|^9.0|^10.0|^11.0|^12.0",
+        "illuminate/http": "^8.0|^9.0|^10.0|^11.0|^12.0",
+        "illuminate/support": "^8.0|^9.0|^10.0|^11.0|^12.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "FizWatch\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "FizWatch\\FizWatchServiceProvider"
+            ]
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}
