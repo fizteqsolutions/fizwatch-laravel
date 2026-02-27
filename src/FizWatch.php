@@ -166,6 +166,7 @@ class FizWatch
     private function send(array $payload)
     {
         return Http::timeout($this->timeout)
+            ->acceptJson()
             ->withHeaders([
                 'X-FizWatch-Key' => $this->key,
             ])
