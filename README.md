@@ -6,26 +6,8 @@ Supports Laravel 8 through 12.
 
 ## Installation
 
-Add the repository and package to your `composer.json`:
-
-```json
-{
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "git@github.com:fizteqsolutions/fizwatch-laravel.git"
-        }
-    ],
-    "require": {
-        "fizteqsolutions/fizwatch-laravel": "^1.0"
-    }
-}
-```
-
-Then run:
-
 ```bash
-composer update fizteqsolutions/fizwatch-laravel
+composer require fizteqsolutions/fizwatch-laravel
 ```
 
 The service provider is auto-discovered — no manual registration needed.
