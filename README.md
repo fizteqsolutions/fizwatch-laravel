@@ -34,6 +34,22 @@ This publishes `config/fizwatch.php` where you can customize:
 - **`timeout`** — HTTP timeout in seconds (default: 5)
 - **`sensitive_fields`** — Request body/query fields replaced with `[Filtered]` before sending (default: `_token`, `password`, `password_confirmation`, `credit_card`, `ssn`, `secret`)
 - **`sensitive_headers`** — HTTP headers replaced with `[Filtered]` (default: `authorization`, `cookie`, `set-cookie`)
+- **`ignored_exceptions`** — Exception classes that should not be reported to FizWatch (default: none)
+
+### Filtering exceptions
+
+If certain exceptions are too noisy (e.g., OAuth errors from mobile apps), you can ignore them entirely. First publish the config, then add exception classes to the `ignored_exceptions` array:
+
+```php
+// config/fizwatch.php
+
+'ignored_exceptions' => [
+    \League\OAuth2\Server\Exception\OAuthServerException::class,
+    \Symfony\Component\HttpKernel\Exception\NotFoundHttpException::class,
+],
+```
+
+Uses `instanceof` matching — adding a parent class also ignores all of its subclasses.
 
 ## Testing your integration
 
