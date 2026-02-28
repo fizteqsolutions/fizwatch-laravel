@@ -71,4 +71,20 @@ return [
         'set-cookie',
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Ignored Exceptions
+    |--------------------------------------------------------------------------
+    |
+    | Exception classes listed here will not be reported to FizWatch.
+    | Uses instanceof matching, so adding a parent class also ignores
+    | all of its subclasses.
+    |
+    */
+
+    'ignored_exceptions' => [
+        // \League\OAuth2\Server\Exception\OAuthServerException::class,
+        // \Symfony\Component\HttpKernel\Exception\NotFoundHttpException::class,
+    ],
+
 ];
