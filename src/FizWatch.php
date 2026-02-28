@@ -25,12 +25,30 @@ class FizWatch
     }
 
     /**
+     * Determine if the given exception should be ignored based on the configured list.
+     */
+    public function shouldIgnore(\Throwable $e): bool
+    {
+        foreach ($this->ignoredExceptions as $class) {
+            if ($e instanceof $class) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * Capture and send an exception to FizWatch. Fails completely silently.
      */
     public function captureException(\Throwable $e): void
     {
         try {
             if (! $this->isConfigured()) {
+                return;
+            }
+
+            if ($this->shouldIgnore($e)) {
                 return;
             }
 
