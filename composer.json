@@ -15,6 +15,11 @@
             "FizWatch\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "FizWatch\\Tests\\": "tests/"
+        }
+    },
     "extra": {
         "laravel": {
             "providers": [
@@ -26,5 +31,9 @@
         "sort-packages": true
     },
     "minimum-stability": "stable",
-    "prefer-stable": true
+    "prefer-stable": true,
+    "require-dev": {
+        "orchestra/testbench": "^10.9",
+        "phpunit/phpunit": "^12.5"
+    }
 }

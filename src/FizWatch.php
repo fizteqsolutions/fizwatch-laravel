@@ -87,7 +87,7 @@ class FizWatch
         return [
             'exception' => [
                 'class' => get_class($e),
-                'message' => $this->truncate($e->getMessage()),
+                'message' => $this->sanitizeMessage($e->getMessage()),
                 'file' => $e->getFile(),
                 'line' => $e->getLine(),
             ],
@@ -190,6 +190,24 @@ class FizWatch
                 'X-FizWatch-Key' => $this->key,
             ])
             ->post(rtrim($this->url, '/') . '/api/v1/errors', $payload);
+    }
+
+    /**
+     * Sanitize exception messages by stripping Laravel encrypted values
+     * (base64-encoded JSON with iv/value/mac/tag keys) that may appear
+     * in QueryException SQL strings.
+     */
+    private function sanitizeMessage(string $message): string
+    {
+        // Match Laravel encrypted values: base64-encoded JSON containing "iv", "value", "mac"
+        // These appear as long base64 strings (typically 200+ chars) in SQL error messages
+        $sanitized = preg_replace(
+            '/eyJ[A-Za-z0-9+\/=]{100,}/',
+            self::FILTERED_VALUE,
+            $message
+        ) ?? $message;
+
+        return $this->truncate($sanitized);
     }
 
     private function truncate(string $value, int $max = self::MAX_STRING_LENGTH): string
