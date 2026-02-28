@@ -18,6 +18,7 @@ class FizWatchServiceProvider extends ServiceProvider
                 timeout: (int) $app['config']->get('fizwatch.timeout', 5),
                 sensitiveFields: $app['config']->get('fizwatch.sensitive_fields', []),
                 sensitiveHeaders: $app['config']->get('fizwatch.sensitive_headers', []),
+                ignoredExceptions: $app['config']->get('fizwatch.ignored_exceptions', []),
             );
         });
     }

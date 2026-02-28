@@ -16,6 +16,7 @@ class FizWatch
         private int $timeout = 5,
         private array $sensitiveFields = [],
         private array $sensitiveHeaders = [],
+        private array $ignoredExceptions = [],
     ) {}
 
     public function isConfigured(): bool
