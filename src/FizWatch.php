@@ -94,6 +94,8 @@ class FizWatch
             'stacktrace' => $this->buildStacktrace($e),
             'environment' => $this->buildEnvironment(),
             'request' => $this->buildRequest(),
+            'user' => $this->buildUser(),
+            'ip_address' => $this->buildIpAddress(),
             'occurred_at' => now()->toIso8601String(),
         ];
     }
@@ -139,6 +141,49 @@ class FizWatch
                 'body' => $this->filterFields($request->all()),
                 'query_params' => $this->filterFields($request->query()),
             ];
+        } catch (\Throwable $e) {
+            return null;
+        }
+    }
+
+    /**
+     * @return array{id: string, email: string|null}|null
+     */
+    private function buildUser(): ?array
+    {
+        try {
+            $user = auth()->user();
+
+            if (! $user) {
+                return null;
+            }
+
+            $key = $user->getKey();
+
+            if ($key === null) {
+                return null;
+            }
+
+            return [
+                'id' => (string) $key,
+                'email' => $user->email ?? null,
+            ];
+        } catch (\Throwable $e) {
+            return null;
+        }
+    }
+
+    /**
+     * Get the client IP address from the current request, or null in console context.
+     */
+    private function buildIpAddress(): ?string
+    {
+        try {
+            if (app()->runningInConsole()) {
+                return null;
+            }
+
+            return request()->ip();
         } catch (\Throwable $e) {
             return null;
         }
