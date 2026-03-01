@@ -3,6 +3,7 @@
 namespace FizWatch;
 
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class FizWatch
 {
@@ -39,7 +40,8 @@ class FizWatch
     }
 
     /**
-     * Capture and send an exception to FizWatch. Fails completely silently.
+     * Capture and send an exception to FizWatch.
+     * Failures are logged at debug level to aid diagnostics without polluting production logs.
      */
     public function captureException(\Throwable $e): void
     {
@@ -53,9 +55,20 @@ class FizWatch
             }
 
             $payload = $this->buildPayload($e);
-            $this->send($payload);
-        } catch (\Throwable $ignored) {
-            // Fail completely silently — no logs, no exceptions, no side effects.
+            $response = $this->send($payload);
+
+            if (! $response->successful()) {
+                Log::debug('FizWatch: server rejected error report', [
+                    'status' => $response->status(),
+                    'body' => $response->body(),
+                    'exception_class' => get_class($e),
+                ]);
+            }
+        } catch (\Throwable $sendFailure) {
+            Log::debug('FizWatch: failed to send error report', [
+                'error' => $sendFailure->getMessage(),
+                'exception_class' => get_class($e),
+            ]);
         }
     }
 
