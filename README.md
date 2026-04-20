@@ -2,7 +2,7 @@
 
 Laravel client package for [FizWatch](https://github.com/fizteqsolutions/fizwatch) error tracking. Captures exceptions and sends them to your FizWatch instance automatically.
 
-Supports Laravel 8 through 12.
+Supports Laravel 8 through 13.
 
 ## Installation
 
